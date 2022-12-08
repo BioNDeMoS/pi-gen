@@ -2,7 +2,11 @@ name: Release
 
 on:
   push:
-    
+    paths:
+      - 'stage*/**'
+      - 'build*.sh'
+      - 'config'
+      - 'export*/**'
 
 jobs:
   release:
