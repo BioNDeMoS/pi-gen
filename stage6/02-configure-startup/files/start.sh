@@ -4,19 +4,25 @@
 config_file="/data/config.conf"
 
 # Set password of biondemos user
-hashed_password=$(grep hashed_password $config_file | cut -d '=' -f2)
-if [ -n "$hashed_password" ]; then
-  echo biondemos:$hashed_password | sudo chpasswd -e
+HASHED_PASSWORD=$(grep HASHED_PASSWORD $config_file | cut -d '=' -f2)
+if [ -n "$HASHED_PASSWORD" ]; then
+  echo biondemos:$HASHED_PASSWORD | sudo chpasswd -e
 fi
 
+# Register Wifi
+WPA_SSID=$(grep WPA_SSID $config_file | cut -d '=' -f2)
+WPA_PASSWORD=$(grep WPA_PASSWORD $config_file | cut -d '=' -f2)
+wpa_passphrase "${WPA_SSID}" "${WPA_PASSWORD}" | tee -a "/etc/wpa_supplicant/wpa_supplicant.conf"
+
+# Generate SSH Key
 if [ -f /config/autossh/id_ed25519 ]; then
   ssh-keygen -N "" -f /config/autossh/id_ed25519 -t ed25519 -C "rpi_$(grep -i serial /proc/cpuinfo | cut -d : -f2 | cut -c10-)" <<<y
 fi
-cp /config/autossh/id_ed25519.pub /data/autossh/id_ed25519.pub
+cp /config/autossh/id_ed25519.pub /data/id_ed25519.pub
 
 
 # Clone the config repository
-repo_url=$(grep repo_url $config_file | cut -d '=' -f2)
+repo_url=$(grep REPO_URL $config_file | cut -d '=' -f2)
 target_dir="/config"
 if [ ! -d "$target_dir" ]; then
   # Clone the repository if the target directory does not exist
