@@ -33,6 +33,7 @@ else
   git pull --rebase
 fi
 
+# Set permission for node-red
 chown -R 1000:1000 /config/node-red
 
 # Start docker containers
