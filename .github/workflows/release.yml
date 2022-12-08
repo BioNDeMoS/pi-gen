@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: build
+        run: ./build.sh -c config
+      - name: tar
+        run: tar -czf deploy/biondemos-os-full.tar.gz deploy/biondemos-os-full.img
+      - name: zip
+        run: zip deploy/biondemos-os-full.zip deploy/biondemos-os-full.img
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            ${{ steps.Changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+      - name: Upload tar.gz Release Asset
+        id: upload-release-asset
+        uses: sekwah41/upload-release-assets@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: deploy/biondemos-os-full.tar.gz
+          asset_name: biondemos-os-full.tar.gz
+          asset_content_type: application/gzip
+      - name: Upload zip Release Asset
+        id: upload-release-asset
+        uses: sekwah41/upload-release-assets@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: deploy/biondemos-os-full.zip
+          asset_name: biondemos-os-full.zip
+          asset_content_type: application/zip

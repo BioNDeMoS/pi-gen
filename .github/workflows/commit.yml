@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    
+
+jobs:
+  release:
+    name: "Release"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: build
+        run: ./build.sh -c config
+      - name: tar
+        run: tar -czf deploy/biondemos-os-full.tar.gz deploy/biondemos-os-full.img
+      - name: zip
+        run: zip deploy/biondemos-os-full.zip deploy/biondemos-os-full.img
+      - name: Upload tar.gz
+        uses: actions/upload-artifact@v3
+        with:
+          name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}
+          path: ${{ runner.temp }}/deploy/biondemos-os-full.tar.gz
+          retention-days: 7
+      - name: Upload zip
+        uses: actions/upload-artifact@v3
+        with:
+          name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}
+          path: ${{ runner.temp }}/deploy/biondemos-os-full.zip
+          retention-days: 7
