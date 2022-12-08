@@ -1,6 +1,9 @@
-# pi-gen
+# BioNDeMoS pi-gen
 
-Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
+Tool used to create BioNDeMoS OS images. 
+
+[![Release](https://github.com/BioNDeMoS/pi-gen/actions/workflows/release.yml/badge.svg)](https://github.com/BioNDeMoS/pi-gen/actions/workflows/release.yml)
+[![Commit](https://github.com/BioNDeMoS/pi-gen/actions/workflows/commit.yml/badge.svg)](https://github.com/BioNDeMoS/pi-gen/actions/workflows/commit.yml)
 
 
 ## Dependencies
