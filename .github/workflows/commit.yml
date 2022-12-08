@@ -9,8 +9,8 @@ on:
       - 'export*/**'
 
 jobs:
-  release:
-    name: "Release"
+  build:
+    name: "Build"
     runs-on: "ubuntu-latest"
     steps:
       - name: checkout
@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: build
-        run: ./build.sh -c config
+        run: sudo ./build.sh -c config
       - name: tar
         run: tar -czf deploy/biondemos-os-full.tar.gz deploy/biondemos-os-full.img
       - name: zip
