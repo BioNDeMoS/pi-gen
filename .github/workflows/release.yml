@@ -9,15 +9,17 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: build
+      - name: Install dependencies
+        run: sudo apt-get install -y --no-install-recommends quilt qemu-user-static debootstrap libarchive-tools qemu-utils
+      - name: Build
         run: sudo ./build.sh -c config
-      - name: tar
+      - name: Create tar
         run: tar -czf deploy/biondemos-os-full.tar.gz deploy/biondemos-os-full.img
-      - name: zip
+      - name: Create zip
         run: zip deploy/biondemos-os-full.zip deploy/biondemos-os-full.img
       - name: Create Release
         id: create_release
@@ -31,7 +33,7 @@ jobs:
             ${{ steps.Changelog.outputs.changelog }}
           draft: false
           prerelease: false
-      - name: Upload tar.gz Release Asset
+      - name: Upload tar Release Asset
         uses: sekwah41/upload-release-assets@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
