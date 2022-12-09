@@ -6,6 +6,6 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/
 echo "deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian ${RELEASE} stable" > /etc/apt/sources.list.d/docker.list
 apt-get update
 apt-get install -y --no-install-recommends docker-ce docker-ce-cli containerd.io docker-compose-plugin
-EOF
 
 usermod ${FIRST_USER_NAME} -aG dialout
+EOF
