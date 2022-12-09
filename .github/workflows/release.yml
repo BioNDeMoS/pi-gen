@@ -18,9 +18,9 @@ jobs:
       - name: Build
         run: sudo ./build.sh -c config
       - name: Create tar
-        run: tar -czf deploy/biondemos-os-full.tar.gz deploy/biondemos-os-full.img
+        run: tar -czf biondemos-os-full.tar.gz deploy/biondemos-os-full.img
       - name: Create zip
-        run: zip deploy/biondemos-os-full.zip deploy/biondemos-os-full.img
+        run: zip biondemos-os-full.zip deploy/biondemos-os-full.img
       - name: Create Release
         id: create_release
         uses: actions/create-release@latest
@@ -39,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: deploy/biondemos-os-full.tar.gz
+          asset_path: biondemos-os-full.tar.gz
           asset_name: biondemos-os-full.tar.gz
           asset_content_type: application/gzip
       - name: Upload zip Release Asset
@@ -48,6 +48,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: deploy/biondemos-os-full.zip
+          asset_path: biondemos-os-full.zip
           asset_name: biondemos-os-full.zip
           asset_content_type: application/zip
