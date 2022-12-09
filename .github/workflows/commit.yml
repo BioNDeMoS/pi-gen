@@ -23,18 +23,18 @@ jobs:
       - name: Build
         run: sudo ./build.sh -c config
       - name: Create tar
-        run: tar -czf biondemos-os-full.tar.gz deploy/biondemos-os-full.img
+        run: tar -czf deploy/biondemos-os-full.tar.gz deploy/biondemos-os-full.img
       - name: Create zip
-        run: zip biondemos-os-full.zip deploy/biondemos-os-full.img
+        run: zip deploy/biondemos-os-full.zip deploy/biondemos-os-full.img
       - name: Upload tar
         uses: actions/upload-artifact@v3
         with:
           name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}
-          path: ${{ runner.temp }}/biondemos-os-full.tar.gz
+          path: ${{ runner.temp }}/deploy/biondemos-os-full.tar.gz
           retention-days: 7
       - name: Upload zip
         uses: actions/upload-artifact@v3
         with:
           name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}
-          path: ${{ runner.temp }}/biondemos-os-full.zip
+          path: ${{ runner.temp }}/deploy/biondemos-os-full.zip
           retention-days: 7
