@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 # Apply config file
 config_file="/data/config.conf"
@@ -38,4 +38,6 @@ chown -R 1000:1000 /config/node-red
 
 # Start docker containers
 cd /config/docker
-docker compose up -d --build --pull always
+docker compose pull
+docker compose build
+docker compose up -d
