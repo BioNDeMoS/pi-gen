@@ -58,30 +58,30 @@ install -m 644 "${ROOTFS_DIR}/etc/rpi-issue" "${ROOTFS_DIR}/boot/issue.txt"
 cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 
 
-{
-	if [ -f "$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" ]; then
-		firmware=$(zgrep "firmware as of" \
-			"$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" | \
-			head -n1 | sed  -n 's|.* \([^ ]*\)$|\1|p')
-		printf "\nFirmware: https://github.com/raspberrypi/firmware/tree/%s\n" "$firmware"
+# {
+# 	if [ -f "$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" ]; then
+# 		firmware=$(zgrep "firmware as of" \
+# 			"$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" | \
+# 			head -n1 | sed  -n 's|.* \([^ ]*\)$|\1|p')
+# 		printf "\nFirmware: https://github.com/raspberrypi/firmware/tree/%s\n" "$firmware"
 
-		kernel="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/git_hash")"
-		printf "Kernel: https://github.com/raspberrypi/linux/tree/%s\n" "$kernel"
+# 		kernel="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/git_hash")"
+# 		printf "Kernel: https://github.com/raspberrypi/linux/tree/%s\n" "$kernel"
 
-		uname="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/uname_string7")"
-		printf "Uname string: %s\n" "$uname"
-	fi
+# 		uname="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/uname_string7")"
+# 		printf "Uname string: %s\n" "$uname"
+# 	fi
 
-	printf "\nPackages:\n"
-	dpkg -l --root "$ROOTFS_DIR"
-} >> "$INFO_FILE"
+# 	printf "\nPackages:\n"
+# 	dpkg -l --root "$ROOTFS_DIR"
+# } >> "$INFO_FILE"
 
 mkdir -p "${DEPLOY_DIR}"
 
 rm -f "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.*"
 rm -f "${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 
-mv "$INFO_FILE" "$DEPLOY_DIR/"
+# mv "$INFO_FILE" "$DEPLOY_DIR/"
 
 if [ "${USE_QCOW2}" = "0" ] && [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 	ROOT_DEV="$(mount | grep "${ROOTFS_DIR} " | cut -f1 -d' ')"
